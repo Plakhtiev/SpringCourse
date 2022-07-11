@@ -25,12 +25,12 @@ public class UniLibrary extends AbstractLibrary {
     }
 
     public void addBook(String personName, Book book) {
-        System.out.println("Add book to thr UniLibrary");
+        System.out.println("Add book to the UniLibrary");
         System.out.println("____________________________");
     }
 
     public void addMagazine() {
-        System.out.println("Add Magazine to thr UniLibrary");
+        System.out.println("Add Magazine to the UniLibrary");
         System.out.println("____________________________");
     }
 

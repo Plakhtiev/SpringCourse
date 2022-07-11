@@ -1,7 +1,10 @@
 package aop.aspect;
 
+import aop.Book;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -53,11 +56,33 @@ public class LoginAspect {
 //        System.out.println("beforeGetAndReturnMethodsFromUniLibrary: writing Log #3 ");
 //    }
 
-    @Before("aop.aspect.MyPointCuts.allGetMethods()")
-    public void beforeGetLoginAdvice() {
-        System.out.println("beforeGetLoginAdvice: Logging try to get a book/magazine ");
-    }
+    @Before("aop.aspect.MyPointCuts.allAddMethods()")
+    public void beforeAddLoginAdvice(JoinPoint joinPoint) {
 
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        System.out.println("methodSignature = " + methodSignature);
+        System.out.println("methodSignature.getMethod() = " + methodSignature.getMethod());
+        System.out.println("methodSignature.getReturnType() = " + methodSignature.getReturnType());
+        System.out.println("methodSignature.getName() = " + methodSignature.getName());
+
+        if (methodSignature.getName().equals("addBook")) {
+            Object[] arguments = joinPoint.getArgs();
+            for (Object obj : arguments) {
+                if (obj instanceof Book) {
+                    Book myBook = (Book) obj;
+                    System.out.println("Information about the book - " + myBook.getNameBook() +
+                            ", author - " + myBook.getAuthor() +
+                            ", Year Of Publication - " + myBook.getYearOfPublication());
+                } else if (obj instanceof  String) {
+                    System.out.println("Book adds to the library " + obj);
+                }
+            }
+
+        }
+
+        System.out.println("beforeAddLoginAdvice: Logging try to get a book/magazine ");
+        System.out.println("____________________________");
+    }
 
 
 }
