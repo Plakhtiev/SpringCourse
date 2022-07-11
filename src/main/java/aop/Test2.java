@@ -10,8 +10,13 @@ public class Test2 {
 
         University university = context.getBean("university", University.class);
         university.addStudents();
+        try {
+
         List<Student> students = university.getStudents();
         System.out.println(students);
+        } catch (Exception e) {
+            System.out.println("Exception has been caught ");
+        }
 
         context.close();
     }
