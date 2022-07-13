@@ -5,7 +5,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class Test1 {
+import java.util.List;
+
+public class Test3GetFornDB {
     public static void main(String[] args) {
         SessionFactory factory = new Configuration()
                 .configure("hibernate.cfg.xml")
@@ -14,11 +16,23 @@ public class Test1 {
 
         try {
             Session session = factory.getCurrentSession();
-            Employee emp = new Employee("Alex", "Smirnov", "IT-45", 638);
             session.beginTransaction();
-            session.save(emp);
+
+//            List<Employee> employees = session.createQuery("from Employee")
+//                            .getResultList();
+
+                            List<Employee> employees = session.createQuery("from Employee " +
+                                            "where name = 'Alex' AND salary>600")
+                            .getResultList();
+
+            for (Employee emp: employees) {
+                System.out.println("Result query - " + emp);
+            }
+
             session.getTransaction().commit();
+
             System.out.println("Done!");
+
         } finally {
             factory.close();
         }
